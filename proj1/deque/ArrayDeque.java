@@ -46,7 +46,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     @Override
-    public void addList(T item) {
+    public void addLast(T item) {
         if (size == items.length) {
             resize(size * 2);
         }

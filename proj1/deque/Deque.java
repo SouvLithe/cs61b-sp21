@@ -6,7 +6,7 @@ public interface Deque<T> {
     void addFirst(T item);
 
     /** 将类型为T的项添加到队列的后面。可假设该项目永远不会为空 */
-    void addList(T item);
+    void addLast(T item);
 
     /** 如果deque为空则返回true，否则返回false */
     default boolean isEmpty(){

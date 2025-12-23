@@ -64,7 +64,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     @Override
-    public void addList(T item) {
+    public void addLast(T item) {
         Node n = new Node(item);
         sentinel.prev.next = n;
         n.prev = sentinel.prev;
