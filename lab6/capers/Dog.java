@@ -54,11 +54,9 @@ public class Dog implements Serializable {
      */
     public static Dog fromFile(String name) {
         //  (hint: look at the Utils file)
-        Dog dog = null;
         File readFile = join(DOG_FOLDER, name);
         // if not implements Serializable interface, Dog.class will not able to be used
-        readObject(readFile, Dog.class);
-        return dog;
+        return readObject(readFile, Dog.class);
     }
 
     /**
@@ -66,7 +64,7 @@ public class Dog implements Serializable {
      */
     public void haveBirthday() {
         age += 1;
-        System.out.println(toString());
+        System.out.println(this);
         System.out.println("Happy birthday! Woof! Woof!");
     }
 
