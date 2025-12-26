@@ -19,10 +19,11 @@ course code: MB7ZPY
 - lab4: 32/32
 - lab4A: 16/16
 - lab4B: 16/16
-- lab6: 64/
-- lab7: 64/
-- lab8: 64/
-- lab12: 64/
+- lab6: 64/64
+- lab7: 64/64
+- lab8: 64/64
+- lab12: 64/64
+- HW2: 160/160
 - project0: 640/640
 - projcet1-checkpoint: 16/16
 - project1: 640/640
