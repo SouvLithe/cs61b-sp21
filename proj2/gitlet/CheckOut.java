@@ -7,7 +7,7 @@ import java.util.Map;
 import static gitlet.Utils.*;
 
 /**
- *  代表 gitlet-checkout 和 gitlet-reset.
+ * 代表 gitlet-checkout 和 gitlet-reset.
  *
  * @author SouvLithe
  */
@@ -17,9 +17,9 @@ public class CheckOut {
      * 并将其放入工作目录中，
      * 如果已有该文件的旧版本，则会覆盖该旧版本。
      * 文件的新版本不会被暂存。
-     * */
+     */
     public static void checkoutFile(File file) {
-        checkoutFile(HelperMethods.readHEADAsCommit(),file);
+        checkoutFile(HelperMethods.readHEADAsCommit(), file);
     }
 
     /**
@@ -27,8 +27,8 @@ public class CheckOut {
      * 并将其放入工作目录中，
      * 如果该文件已在工作目录中，则会覆盖其原有版本。
      * 文件的新版本不会被暂存。
-     * */
-    public static void checkoutFile(Commit commit,File file) {
+     */
+    public static void checkoutFile(Commit commit, File file) {
         String oldBlob = commit.getBlob(file);
         if (oldBlob == null) {
             HelperMethods.exit("File does not exist in that commit.");
@@ -49,18 +49,19 @@ public class CheckOut {
         }
 
         HelperMethods.untrackedExist();
-        Repository.clean(Repository.CWD);
 
+        Repository.clean(Repository.CWD);
         Branch branchToSwitch = Branch.readBranch(name);
+
         Commit commitToSwitch = branchToSwitch.getHEADAsCommit();
         HashMap<String, String> old = commitToSwitch.getBlobs();
         for (String oldFile : old.keySet()) {
             String branchName = old.get(oldFile);
-            reStoreBlob(join(oldFile),join(Repository.makeObjectDir(branchName)));
+            reStoreBlob(join(oldFile), join(Repository.makeObjectDir(branchName)));
         }
 
         HelperMethods.readStagingArea().cleanStagingArea();
-        HelperMethods.setHEAD(commitToSwitch,branchToSwitch);
+        HelperMethods.setHEAD(commitToSwitch, branchToSwitch);
     }
 
     /**
@@ -72,13 +73,13 @@ public class CheckOut {
      * 暂存区被清空。
      * 此命令本质上是对任意提交的检出操作，
      * 同时还会更改当前分支的分支头。
-     * */
+     */
     public static void reset(Commit commit) {
         Repository.clean(Repository.CWD);
         HelperMethods.readStagingArea().cleanStagingArea();
         Map<String, String> olds = commit.getBlobs();
-        olds.keySet().forEach(file -> checkoutFile(commit,join(file)));
-        HelperMethods.setHEAD(commit,HelperMethods.readHEADAsBranch());
+        olds.keySet().forEach(file -> checkoutFile(commit, join(file)));
+        HelperMethods.setHEAD(commit, HelperMethods.readHEADAsBranch());
     }
 
     /**
@@ -87,7 +88,7 @@ public class CheckOut {
      * @param file      需要检出的文件
      * @param checkFrom 指向 该文件的 blob
      */
-    private static void reStoreBlob(File file,File checkFrom) {
+    private static void reStoreBlob(File file, File checkFrom) {
         Blob oldBlob = readObject(checkFrom, Blob.class);
         writeContents(file, oldBlob.getContent());
     }

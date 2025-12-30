@@ -2,7 +2,6 @@ package gitlet;
 
 import java.io.File;
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.util.*;
 
 import static gitlet.Utils.*;
@@ -63,12 +62,12 @@ public class Commit implements Serializable {
     /**
      * 找到与 uid 相匹配的 commit对象
      */
-    public static Commit findWithUid(String uid) {
-        if (uid == null) {
+    public static Commit findWithUid(String id) {
+        if (id == null) {
             return null;
         }
-        Commit ret = HelperMethods.toCommit(uid);
-        return ret != null ? ret : HelperMethods.toCommit(uid.substring(0, 8));
+        Commit ret = HelperMethods.toCommit(id);
+        return ret != null ? ret : HelperMethods.toCommit(id.substring(0, 8));
     }
 
     /**
@@ -93,7 +92,7 @@ public class Commit implements Serializable {
     public static Set<Commit> findAll() {
         Set<Commit> commits = new HashSet<>();
         String cs = readContentsAsString(Repository.COMMITS);
-        while (cs != null && !cs.isEmpty()) {
+        while (!cs.isEmpty()) {
             commits.add(HelperMethods.toCommit(cs.substring(0, 40)));
             cs = cs.substring(40);
         }
@@ -134,7 +133,7 @@ public class Commit implements Serializable {
         setUid();
         File out = Repository.makeObjectDir(this.uid);
         index.cleanStagingArea();
-        writeContents(out, this);
+        writeObject(out, this);
         HelperMethods.setHEAD(this, HelperMethods.readHEADAsBranch());
         String cs = readContentsAsString(Repository.COMMITS);
         cs += this.uid;
@@ -146,13 +145,10 @@ public class Commit implements Serializable {
      */
     private boolean getStage(Index i) {
         boolean flag = false;
-        Set<String> rm = i.getRemoved();
-        if (!rm.isEmpty()) {
+        Map<String, String> added = i.getAdded();
+        if (!added.isEmpty()) {
             flag = true;
-            rm.forEach(file -> {
-                this.blobs.remove(file);
-                restrictedDelete(file);
-            });
+            this.blobs.putAll(i.getAdded());
         }
         return flag;
     }

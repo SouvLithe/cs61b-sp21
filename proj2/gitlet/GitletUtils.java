@@ -38,6 +38,8 @@ public class GitletUtils {
         if (!inFile.exists()) {
             exit("File does not exist.");
         }
+        // 1st_test 这里也有问题
+        readStagingArea().add(inFile);
     }
 
     /**
@@ -86,7 +88,9 @@ public class GitletUtils {
                 exit("No commit with that id exists.");
             }
             File file = join(CWD, args[3]);
-            CheckOut.checkoutFile(file);
+            // 1st_test 出现问题
+            // CheckOut.checkoutFile(file);
+            CheckOut.checkoutFile(commit, file);
         } else if (args.length == 2) {
             CheckOut.checkoutBranch(args[1]);
         } else {

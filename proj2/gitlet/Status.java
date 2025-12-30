@@ -60,7 +60,7 @@ public class Status {
         if (bs == null) {
             return null;
         }
-        ArrayList<String> branches = new ArrayList<>(bs);
+        List<String> branches = new ArrayList<>(bs);
         String name = HelperMethods.readHEADAsBranch().toString();
         branches.remove(name);
         branches.add(0, "*" + name);
@@ -78,7 +78,7 @@ public class Status {
      */
     private static Set<String> getModifiedButNotStagedFilesNames() {
         Index judge = readStagingArea();
-        HashSet<String> ret = new HashSet<>();
+        Set<String> ret = new HashSet<>();
         Commit h = readHEADAsCommit();
         for (String filePath : h.getBlobs().keySet()) {
             File file = join(filePath);
@@ -104,10 +104,11 @@ public class Status {
      * @return 未跟踪的文件名，如果模式不正确则返回空集。
      */
     public static Set<String> getUntrackedFilesNames() {
-        HashSet<String> ret = new HashSet<>();
+        Set<String> ret = new HashSet<>();
         Commit currentCommit = HelperMethods.readHEADAsCommit();
         List<String> files = plainFilenamesIn(Repository.CWD);
-        if (files != null) {
+//        if (files != null) { 1st_test 这里也有问题
+        if (files == null) {
             return ret;
         }
         Index index = readStagingArea();

@@ -64,8 +64,8 @@ public class Remote implements Serializable {
      * 实际上，这会将远程仓库中给定分支的所有提交和数据块（那些尚未存在于当前仓库中的）复制到本地 .gitlet 文件夹中的名为
      * [远程名称]/[远程分支名称] 的分支中（就像在真正的 Git 中那样），并将 [远程名称]/[远程分支名称] 更改为指向当前提交的头指针（从而将远程仓库中的分支内容复制到当前仓库中）。
      * 如果该分支之前不存在于本地仓库中，则会在本地仓库中创建该分支。
-     * */
-    public void fetch(String remoteName,Branch branch) {
+     */
+    public void fetch(String remoteName, Branch branch) {
         File sourceRepo = remotes.get(remoteName);
         if (branch == null) {
             HelperMethods.exit("That remote does not have that branch.");
@@ -79,23 +79,23 @@ public class Remote implements Serializable {
         findAllAncestors(sourceHEAD, ancestors);
 
         //把这些 commit 移动到当前repo，fetch 它
-        moveObjects(sourceObjectsDir,OBJECTS_DIR,branch,ancestors);
-        String branchName = remoteName + "/"+branch;
+        moveObjects(sourceObjectsDir, OBJECTS_DIR, branch, ancestors);
+        String branchName = remoteName + "/" + branch;
         Branch nb;
         if (!Branch.isExists(branchName)) {
-            nb = new Branch(branchName,branch.getHEADAsString());
-        }else  {
+            nb = new Branch(branchName, branch.getHEADAsString());
+        } else {
             nb = Branch.readBranch(branchName);
             nb.setHEADContent(branch.getHEADAsString());
         }
-        writeContents(join(Repository.BRANCHES_DIR,nb.toString()),nb);
+        writeObject(join(Repository.BRANCHES_DIR, nb.toString()), nb);
     }
 
     /**
      * 尝试将当前分支的提交内容附加到
      * 给定远程分支的末尾处
-     * */
-    public void push(String remoteName,Branch branch) {
+     */
+    public void push(String remoteName, Branch branch) {
         // 拿到所有的 commit 在当前活跃的分支中
         File target = remotes.get(remoteName);
         Set<String> ancestors = new LinkedHashSet<>();
@@ -107,8 +107,8 @@ public class Remote implements Serializable {
         }
 
         // 移动这些 commit push 到远程的仓库，
-        moveObjects(OBJECTS_DIR,join(target,"objects"),branch,ancestors);
-        HelperMethods.setHEAD(currentHEAD,HelperMethods.readHEADAsBranch(),target);
+        moveObjects(OBJECTS_DIR, join(target, "objects"), branch, ancestors);
+        HelperMethods.setHEAD(currentHEAD, HelperMethods.readHEADAsBranch(), target);
     }
 
     /**

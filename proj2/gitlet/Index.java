@@ -170,7 +170,7 @@ public class Index implements Serializable {
      * 在 staged area 中得到文件名称
      */
     public Set<String> getAddedFilenames() {
-        HashSet<String> ret = new HashSet<>();
+        Set<String> ret = new HashSet<>();
         added.keySet().forEach(n -> ret.add(join(n).getName()));
         return ret;
     }
@@ -179,7 +179,7 @@ public class Index implements Serializable {
      * 在 filenames area 中得到文件名称
      */
     public Set<String> getRemovedFilenames() {
-        HashSet<String> ret = new HashSet<>();
+        Set<String> ret = new HashSet<>();
         removed.forEach(n -> ret.add(join(n).getName()));
         return ret;
     }

@@ -155,13 +155,6 @@ public class HelperMethods {
     }
 
     /**
-     * @return HEAD指针指向的 commit id
-     */
-    public static String readHEADContent() {
-        return readHEADAsBranch().getHEADAsString();
-    }
-
-    /**
      * @return HEAD指向的 commit
      */
     public static Commit readHEADAsCommit() {
@@ -169,6 +162,12 @@ public class HelperMethods {
         return HelperMethods.toCommit(uid);
     }
 
+    /**
+     * @return HEAD指针指向的 commit id
+     */
+    public static String readHEADContent() {
+        return readHEADAsBranch().getHEADAsString();
+    }
 
     /**
      * getters 和 setters
@@ -179,9 +178,13 @@ public class HelperMethods {
         b.updateBranch();
     }
 
+    /**
+     * 1st_test时这里有问题
+     */
     public static void setHEAD(Commit commit, Branch b) {
-        b.setHEADContent(commit.getUid());
+        //  b.setHEADContent(commit.getUid());
+        //  这样会导致 sentinel节点后的节点插不进去
+        setHEAD(commit, b, GITLET_DIR);
     }
-
 
 }

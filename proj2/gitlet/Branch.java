@@ -71,9 +71,9 @@ public class Branch implements Serializable {
         return readBranch(branchName, BRANCHES_DIR);
     }
     // 被楼上函数调用
-    public static Branch readBranch(String branchName, File branchDir) {
-        branchName = correctName(branchName);
-        File b = join(branchDir, branchName);
+    public static Branch readBranch(String name, File branchDir) {
+        name = correctName(name);
+        File b = join(branchDir, name);
         return !b.exists() ? null : Utils.readObject(b, Branch.class);
     }
 

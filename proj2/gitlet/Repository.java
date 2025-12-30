@@ -34,18 +34,18 @@ public class Repository implements Serializable {
     /**
      * 引用目录
      */
-    public static final File REPO_DIR = join(GITLET_DIR, "refs");
+    public static final File REFS_DIR = join(GITLET_DIR, "refs");
 
     /**
      * 分支目录
      */
-    public static final File BRANCHES_DIR = join(REPO_DIR, "heads");
+    public static final File BRANCHES_DIR = join(REFS_DIR, "heads");
 
     /**
      * The commits file contains all commits' id.
      */
-    public static final File COMMITS = join(REPO_DIR, "commits");
-    public static final File REMOTES = join(REPO_DIR, "remotes");
+    public static final File COMMITS = join(REFS_DIR, "commits");
+    public static final File REMOTES = join(REFS_DIR, "remotes");
 
     /**
      * 存blobs 和 commits的目录
@@ -64,16 +64,16 @@ public class Repository implements Serializable {
 
     /**
      * 在当前目录中创建一个新的 Gitlet 版本控制系统。
-     * */
+     */
     public static void initializeRepo() {
-        List<File> dirs = List.of(GITLET_DIR, REPO_DIR, BRANCHES_DIR, COMMITS, REMOTES, HEAD, INDEX);
+        List<File> dirs = List.of(GITLET_DIR, REFS_DIR,OBJECTS_DIR, BRANCHES_DIR);
         dirs.forEach(File::mkdir);
         Branch head = new Branch("master", "");
         writeObject(HEAD, head);
         head.updateBranch();
-        writeObject(INDEX,new Index());
-        writeObject(REMOTES,new Remote());
-        writeContents(COMMITS,"");
+        writeObject(INDEX, new Index());
+        writeObject(REMOTES, new Remote());
+        writeContents(COMMITS, "");
     }
 
     /**
@@ -81,8 +81,8 @@ public class Repository implements Serializable {
      */
     public static void clean(File dir) {
         List<String> files = plainFilenamesIn(dir);
-        if (files != null && !files.isEmpty() ) {
-            files.forEach(file -> join(dir,file).delete());
+        if (files != null) {
+            files.forEach(file -> join(dir, file).delete());
         }
     }
 
@@ -90,15 +90,15 @@ public class Repository implements Serializable {
      * 获取一个 commit 对象或一个 blob 对象的目录信息，
      * 同时提供其前两个标识符。
      */
-    public static File getObjectsDir(String id){
-        return join(OBJECTS_DIR, id.substring(0,2));
+    public static File getObjectsDir(String id) {
+        return join(OBJECTS_DIR, id.substring(0, 2));
     }
 
     /**
      * 获取 commit 对象或 blob 对象的文件名，
      * 同时附带其最后 38 位的标识符。
      */
-    public static String getObjectName(String id){
+    public static String getObjectName(String id) {
         return id.substring(2);
     }
 
@@ -106,17 +106,18 @@ public class Repository implements Serializable {
      * 获取某个 commit 对象或某个 blob 对象的文件路径
      * （该对象具有其对应的 ID）。
      */
-    public static File makeObjectDir(String id){
+    public static File makeObjectDir(String id) {
         File out = getObjectsDir(id);
         out.mkdir();
-        return join(out,getObjectName(id));
+        return join(out, getObjectName(id));
     }
 
     /**
      * 获取给定远程仓库分支目录的文件路径。
+     * 1st_test时，这里也有问题
      */
-    public static File getRemoteBranchDir(String name){
-        return join(HelperMethods.readRemotes().getRemote(name))
+    public static File getRemoteBranchDir(String name) {
+        return join(HelperMethods.readRemotes().getRemote(name),"refs","heads");
     }
 }
 
