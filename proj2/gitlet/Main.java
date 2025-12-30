@@ -15,6 +15,8 @@ public class Main {
         if (args == null || args.length == 0) {
             // args 为空
             System.out.println("Please enter a command.");
+            // 2nd_test 完成交互模式输入为空时的退出
+            return;
         }
         String firstArg = args[0];
         switch (firstArg) {

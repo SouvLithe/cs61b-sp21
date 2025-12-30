@@ -66,7 +66,7 @@ public class Repository implements Serializable {
      * 在当前目录中创建一个新的 Gitlet 版本控制系统。
      */
     public static void initializeRepo() {
-        List<File> dirs = List.of(GITLET_DIR, REFS_DIR,OBJECTS_DIR, BRANCHES_DIR);
+        List<File> dirs = List.of(GITLET_DIR,REFS_DIR,OBJECTS_DIR,BRANCHES_DIR);
         dirs.forEach(File::mkdir);
         Branch head = new Branch("master", "");
         writeObject(HEAD, head);
