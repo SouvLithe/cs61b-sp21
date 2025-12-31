@@ -1,6 +1,8 @@
 # CS61B - SPRING 2021
 Completion Date: December 31, 2025. 
+
 It was completed just before the deadline set by Gradescope.
+
 Personal solution method, for reference only
 
 ---
