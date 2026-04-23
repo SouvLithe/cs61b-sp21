@@ -10,24 +10,24 @@ import static gitlet.Utils.*;
  * 展示 gitlet 的目录结构
  * <p>
  * .gitlet
- * <br>├── refs/
- * <br>│ ├── commits
- * <br>│ ├── heads/
- * <br>│ └── remotes/
- * <br>├── objects/
- * <br>├── HEAD
- * <br>└── index
+ *     ├── refs/
+ *     │ ├── commits
+ *     │ ├── heads/
+ *     │ └── remotes/
+ *     ├── objects/
+ *     ├── HEAD
+ *     └── index
  *
  * @author SouvLithe
  */
 public class Repository implements Serializable {
     /**
-     * The current working directory.
+     * 当前工作目录
      */
     public static final File CWD = new File(System.getProperty("user.dir"));
 
     /**
-     * The .gitlet directory.
+     * .gitlet 目录
      */
     public static final File GITLET_DIR = join(CWD, ".gitlet");
 
@@ -42,7 +42,7 @@ public class Repository implements Serializable {
     public static final File BRANCHES_DIR = join(REFS_DIR, "heads");
 
     /**
-     * The commits file contains all commits' id.
+     * commits 文件包含 commits' id.
      */
     public static final File COMMITS = join(REFS_DIR, "commits");
     public static final File REMOTES = join(REFS_DIR, "remotes");
